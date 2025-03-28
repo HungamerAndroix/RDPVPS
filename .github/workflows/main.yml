@@ -1,36 +1,28 @@
 name: Windows - LiteManager
 
-
 on:
-
   workflow_dispatch:
 
-
 jobs:
-
   build:
-
     name: Start Building...
-
     runs-on: windows-latest
-
-    timeout-minutes: 9999
-
+    timeout-minutes: 720  # Túl magas érték kerülése
     
-
     steps:
-
       - name: Downloading & Installing Essentials
-
         run: |
-
           Invoke-Webrequest -Uri "https://gitlab.com/chamod2/lm_win-10_github_rdp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
-
           cmd /c Downloads.bat
 
-
       - name: Connect to LiteManager
+        run: echo "Connecting to LiteManager..." # Adj hozzá tényleges parancsot
 
       - name: Time Counter
-
-        run: cmd /c loop.bat
+        run: |
+          if (Test-Path loop.bat) {
+            cmd /c loop.bat
+          } else {
+            echo "loop.bat not found!"
+            exit 1
+          }
